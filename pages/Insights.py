@@ -11,9 +11,6 @@ st.title("Insights Page")
 
 st.markdown(app.get_img(), unsafe_allow_html=True)
 
-if st.button("Go Back to News"):
-    st.session_state.page = "app"  # Set a flag that signals the app page should be displayed
-
 #initialize sesson state
 if 'insight_data' not in st.session_state:
     st.session_state.insight_data = asyncio.run(Exporter.update_insights_async())  # Fetch news data once and store in session_state
