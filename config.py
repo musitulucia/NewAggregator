@@ -2,6 +2,8 @@
 Set global variables
 '''
 
+NEWS_FILE = "news_data.json"
+INSIGHT_FILE = "insights.json"
 
 sources = ['Chipstrat',
            'Wccftech',
@@ -36,6 +38,8 @@ sources = ['Chipstrat',
           'DigiTimesAsia',
           'SemiPress',
           'SIA']
+
+#sources = ['Google.news', 'SCMP']
 
 #BusinessKorea needs to be added, 'Phys.org',
 

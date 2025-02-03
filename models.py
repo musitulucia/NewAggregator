@@ -13,6 +13,16 @@ from deep_translator import GoogleTranslator
 
 importlib.reload(Exporter)
 from bs4 import BeautifulSoup
+import datetime
+import config
+
+import streamlit as st
+import asyncio
+import json
+import os
+from datetime import datetime
+import pytz
+from dateutil import parser
 
 #CREATE CLASS TO STORE DATA OF EACH POST
 class Post:
@@ -31,9 +41,9 @@ class Post:
         """Convert the Post object to a dictionary."""
         return {
             "headline": self.headline,
-            "publication_time": str(self.publication_time),  # Ensure datetime is converted to string
+            "publication_time": self.publication_time,  # Ensure datetime is converted to string
             "publication_time_ago": self.publication_time_ago,
-            'published_time': self.published_time,
+            'published_time': self.published_time.isoformat(),
             "source": self.source,
             "link": self.link
         }
@@ -43,12 +53,59 @@ class Post:
         """Create a Post object from a dictionary."""
         return cls(
             headline=data["headline"],
-            publication_time=data["publication_time"],
+            publication_time= data["publication_time"],
             publication_time_ago=data["publication_time_ago"],
             link=data["link"],
-            published_time=data["published_time"],
+            published_time= datetime.fromisoformat(data["published_time"]),
             source=data["source"]
         )
+
+
+
+
+def save_news_data(data, news = True):
+    """Save list of Post objects as JSON."""
+    #for news
+    if news == True:
+        print('✅ Saving json file for news_data')
+        with open(config.NEWS_FILE, "w", encoding="utf-8") as f:
+            json.dump([post.to_dict() for post in data], f, ensure_ascii=False, indent=4)
+    #for insights
+    else:
+        print('✅ Saving json file for insight_data')
+        with open(config.INSIGHT_FILE, "w", encoding="utf-8") as f:
+            json.dump([post.to_dict() for post in data], f, ensure_ascii=False, indent=4)
+
+
+def load_news_data(news = True):
+    """Load JSON file if it exists, otherwise fetch new data."""
+    if news == True:
+        if os.path.exists(config.NEWS_FILE):
+            print('✅ Loading json file for news_data')
+            with open(config.NEWS_FILE, "r", encoding="utf-8") as f:
+                return [Post.from_dict(item) for item in json.load(f)]
+
+        # If the file doesn't exist, fetch new data
+        news_data = asyncio.run(Exporter.update_news_async())
+
+        # Save the new data to avoid fetching next time
+        save_news_data(news_data)
+
+        return news_data
+    else:
+        if os.path.exists(config.INSIGHT_FILE):
+            print('✅ Loading json file for insight_data')
+            with open(config.INSIGHT_FILE, "r", encoding="utf-8") as f:
+                return [Post.from_dict(item) for item in json.load(f)]
+
+        # If the file doesn't exist, fetch new data
+        insight_data = asyncio.run(Exporter.update_insights_async())
+
+        # Save the new data to avoid fetching next time
+        save_news_data(insight_data, news = False)
+
+        return insight_data
+
 
 
 '''

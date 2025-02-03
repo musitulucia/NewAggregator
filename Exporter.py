@@ -1748,10 +1748,15 @@ async def update_news(sources):
 
 
 async def update_news_async():
-    return await update_news(config.sources)  # Fetch news asynchronously
+    news_data = await update_news(config.sources)
+    models.save_news_data(news_data, news = True)
+    return news_data  # Fetch news asynchronously
+
 
 async def update_insights_async():
-    return await update_news(config.sources_insights)
+    sources_insights = await update_news(config.sources_insights)
+    models.save_news_data(sources_insights, news = False)
+    return sources_insights
 
 
 

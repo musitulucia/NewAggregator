@@ -5,8 +5,7 @@ import base64
 from pathlib import Path
 from Exporter import news_need_update, update_news_async
 import asyncio
-
-
+import models
 
 
 
@@ -14,7 +13,6 @@ def img_to_bytes(img_path):
     img_bytes = Path(img_path).read_bytes()
     encoded = base64.b64encode(img_bytes).decode()
     return encoded
-
 
 
 def img_to_html(img_path):
@@ -170,7 +168,7 @@ def display_news_need_update(news_need_update_dict):
 # Streamlit app layout
 st.set_page_config(page_title="Latest News", layout="wide", initial_sidebar_state="collapsed")  # Set wide layout and collapsed sidebar for more focus
 
-
+st.sidebar.title("News search")
 
 #back imag
 @st.cache_data
@@ -189,18 +187,6 @@ def get_img():
     return page_element
 
 st.markdown(get_img(), unsafe_allow_html=True)
-
-if st.session_state.get('page') == "app":
-    st.session_state.page = None  # Reset the page flag
-
-# Add a button to navigate to the Insights page
-if st.button("Go to Insights"):
-    # Redirect to the Insights page
-    st.session_state.page = "Insights"
-
-# This will load Insights page if the session state indicates it
-if "page" in st.session_state and st.session_state.page == "Insights":
-    import pages.Insights
 
 # Header and tagline (compact)
 st.markdown("""
@@ -231,8 +217,11 @@ st.markdown("""
 
 #initialize sesson state
 if 'news_data' not in st.session_state:
-    st.session_state.news_data = asyncio.run(update_news_async())  # Fetch news data once and store in session_state
-    st.session_state.news_need_update = news_need_update
+    #news_data = asyncio.run(update_news_async())
+    #st.session_state.news_data =  news_data # Fetch news data once and store in session_state
+    st.session_state.news_data = models.load_news_data()
+    if news_need_update:
+        st.session_state.news_need_update = news_need_update
 
 if 'last_run' not in st.session_state:
     st.session_state.last_run = time.time()  # Track when the news was last fetched
@@ -273,8 +262,9 @@ if time.time() - st.session_state.last_run > 60 * 30:  # 5 minutes
 # Add this section below the news display
 st.markdown("---")  # Separator for visual clarity
 
+if 'news_need_update' in st.session_state:
 # Display the "news_need_update" section
-display_news_need_update(st.session_state.news_need_update)
+    display_news_need_update(st.session_state.news_need_update)
 
 # Add a button to manually refresh news
 if st.button("Refresh News",  key="refresh_news") or st.session_state.refresh_flag:

@@ -205,7 +205,7 @@ async def multiple_childs(url, source, parent_xpath, child_configs, flag_days,  
                 # Wait for the parent element to load
                 await parent_locator.wait_for(timeout=15000)
                 # Dynamically choose the child_config based on the page number
-                print('found parent')
+
 
                 for child_config in child_configs(page_num):
 
