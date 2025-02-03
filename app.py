@@ -192,7 +192,7 @@ st.markdown(get_img(), unsafe_allow_html=True)
 # Header and tagline (compact)
 st.markdown("""
     <h2 style="font-size: 30px; color: #FFFFFF; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); text-align: center; margin: 10px 0;">Breaking News</h2>
-    <h4 style="font-size: 18px; color: #FFFFFF; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); text-align: center; margin: 5px 0;">Stay updated with the latest headlines from various sources</h4>
+    <h4 style="font-size: 18px; color: #FFFFFF; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); text-align: center; margin: 5px 0;">Stay updated with all the headlines from the last five days. Last updated at 9:16, 03-02-25.</h4>
 """, unsafe_allow_html=True)
 
 # Use custom font family for the app (compact version)
@@ -275,9 +275,9 @@ if filtered_sources:
 # Display the news
 display_news(filtered_news_data)
 
-# Check if it's time to refresh news (every 5 minutes)
-if time.time() - st.session_state.last_run > 60 * 30:  # 5 minutes
-    st.session_state.refresh_flag = True  # Set the flag to refresh the news
+# # Check if it's time to refresh news (every 5 minutes)
+# if time.time() - st.session_state.last_run > 60 * 30:  # 5 minutes
+#     st.session_state.refresh_flag = True  # Set the flag to refresh the news
 
 # Add this section below the news display
 st.markdown("---")  # Separator for visual clarity
@@ -286,10 +286,10 @@ if 'news_need_update' in st.session_state:
 # Display the "news_need_update" section
     display_news_need_update(st.session_state.news_need_update)
 
-# Add a button to manually refresh news
-if st.button("Refresh News",  key="refresh_news") or st.session_state.refresh_flag:
-    print('✅ Time to refresh news')
-    st.session_state.news_data = asyncio.run(update_news_async())  # Fetch updated news
-    st.session_state.news_need_update = news_need_update
-    st.session_state.last_run = time.time()  # Update the last run time
-    st.session_state.refresh_flag = False  # Reset the refresh flag
+# # Add a button to manually refresh news
+# if st.button("Refresh News",  key="refresh_news") or st.session_state.refresh_flag:
+#     print('✅ Time to refresh news')
+#     st.session_state.news_data = asyncio.run(update_news_async())  # Fetch updated news
+#     st.session_state.news_need_update = news_need_update
+#     st.session_state.last_run = time.time()  # Update the last run time
+#     st.session_state.refresh_flag = False  # Reset the refresh flag

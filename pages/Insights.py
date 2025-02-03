@@ -30,9 +30,9 @@ if 'refresh_flag_in' not in st.session_state:
 # Display the news
 app.display_news(st.session_state.insight_data)
 
-# Check if it's time to refresh news (every 5 minutes)
-if time.time() - st.session_state.last_run_in > 60 * 30:  # 5 minutes
-    st.session_state.refresh_flag_in = True  # Set the flag to refresh the news
+# # Check if it's time to refresh news (every 5 minutes)
+# if time.time() - st.session_state.last_run_in > 60 * 30:  # 5 minutes
+#     st.session_state.refresh_flag_in = True  # Set the flag to refresh the news
 
 # Add this section below the news display
 st.markdown("---")  # Separator for visual clarity
@@ -41,10 +41,10 @@ if 'insight_need_update' in st.session_state:
 # Display the "news_need_update" section
     app.display_news_need_update(st.session_state.insight_need_update)
 
-# Add a button to manually refresh news
-if st.button("Refresh Insights",  key="refresh_insights") or st.session_state.refresh_flag_in:
-    print('✅ Time to refresh insights')
-    st.session_state.insight_data = asyncio.run(Exporter.update_insights_async())  # Fetch updated news
-    st.session_state.insight_need_update = insight_need_update
-    st.session_state.last_run_in = time.time()  # Update the last run time
-    st.session_state.refresh_flag_in = False  # Reset the refresh flag
+# # Add a button to manually refresh news
+# if st.button("Refresh Insights",  key="refresh_insights") or st.session_state.refresh_flag_in:
+#     print('✅ Time to refresh insights')
+#     st.session_state.insight_data = asyncio.run(Exporter.update_insights_async())  # Fetch updated news
+#     st.session_state.insight_need_update = insight_need_update
+#     st.session_state.last_run_in = time.time()  # Update the last run time
+#     st.session_state.refresh_flag_in = False  # Reset the refresh flag

@@ -1622,10 +1622,10 @@ async def fetch_news(source, flag_days):
                 insight_need_update[source] = e
 
     elif source == 'CSR':
-        news = [models.Post(headline = 'Chip Scale Review Report' ,publication_time = " ", publication_time_ago = " ", link = 'https://chipscalereview.com/2024-issues-2/', published_time =  (datetime.now() - timedelta(days = 2)).astimezone(pytz.timezone('Europe/Berlin')) , source = 'CSR') ]
+        news = [models.Post(headline = 'REPORT | Chip Scale Review Report' ,publication_time = " ", publication_time_ago = " ", link = 'https://chipscalereview.com/2024-issues-2/', published_time =  (datetime.now() - timedelta(days = 2)).astimezone(pytz.timezone('Europe/Berlin')) , source = 'CSR') ]
 
     elif source == 'SemiconDigest':
-        news = [models.Post(headline = 'Semicon Digest Magazine' ,publication_time = " ", publication_time_ago = " ", link = 'https://www.semiconductor-digest.com/magazine', published_time =  (datetime.now() - timedelta(days = 2)).astimezone(pytz.timezone('Europe/Berlin')) , source = 'SemiconDigest') ]
+        news = [models.Post(headline = 'MAGAZINE | Semicon Digest Magazine' ,publication_time = " ", publication_time_ago = " ", link = 'https://www.semiconductor-digest.com/magazine', published_time =  (datetime.now() - timedelta(days = 2)).astimezone(pytz.timezone('Europe/Berlin')) , source = 'SemiconDigest') ]
 
     elif source == 'SemiconToday':
 
@@ -1690,20 +1690,19 @@ async def fetch_news(source, flag_days):
 
 
         for div in pdf_divs:
-
             date = div.find("div", style="font-size:11px;font-weight:bold;")
             date_text = div.text.strip() if date else "No date found"
             title_link_tag = div.find("a", class_="news-list-title-link sub", style="font-size:20px;")
-            title = title_link_tag.text.strip()
+            title = str(title_link_tag.text.strip())
             link = 'https://compoundsemiconductor.net' + title_link_tag["href"]
 
             publication_time_ago, publication_time, published_time, flag_days = time_ago(None, 'CScompound', True)
-            publication_time_ago, publication_time = date_text, " "
+            publication_time_ago, publication_time = re.match(r"(.*?)(\n)", date_text).group(1), " "
 
             news.append(models.Post(title, publication_time, publication_time_ago, link, published_time, 'CScompound'))
 
     elif source == 'SSsilicon_news':
-        news = [models.Post(headline = 'Silicon Semiconductor Magazine' ,publication_time = " ", publication_time_ago = " ", link = 'https://siliconsemiconductor.net/magazine#', published_time =  (datetime.now() - timedelta(days = 2)).astimezone(pytz.timezone('Europe/Berlin')) , source = 'SSsilicon_news') ]
+        news = [models.Post(headline = 'MAGAZINE | Silicon Semiconductor Magazine' ,publication_time = " ", publication_time_ago = " ", link = 'https://siliconsemiconductor.net/magazine#', published_time =  (datetime.now() - timedelta(days = 2)).astimezone(pytz.timezone('Europe/Berlin')) , source = 'SSsilicon_news') ]
 
 
     else:
