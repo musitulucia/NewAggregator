@@ -6,6 +6,7 @@ from pathlib import Path
 from Exporter import news_need_update, update_news_async
 import asyncio
 import models
+import re
 
 
 
@@ -240,13 +241,32 @@ keywords = [keyword.strip().lower() for keyword in keywords_input.split(",") if 
 filtered_sources = filter_sources if filter_sources != ["All"] else None
 
 # Function to filter news by keywords
-def filter_by_keywords(news_data, keywords):
+# def filter_by_keywords(news_data, keywords):
+#     if not keywords:
+#         return news_data
+#     return [post for post in news_data if any(keyword in post.headline.lower() or keyword in post.source.lower() for keyword in keywords)]
+
+def filter_exact_keywords(news_data, keywords):
     if not keywords:
-        return news_data
-    return [post for post in news_data if any(keyword in post.headline.lower() or keyword in post.source.lower() for keyword in keywords)]
+        return news_data  # If no keywords are entered, return all data
+
+    filtered_data = []
+    for post in news_data:
+        # Check if any of the keywords match exactly in the post's headline or content
+        headline = post.headline.lower()
+        content = post.content.lower() if hasattr(post, 'content') else ""  # If 'content' attribute exists in Post
+
+        # Create a regex pattern to match whole words (using \b for word boundaries)
+        matches = any(re.search(rf'\b{re.escape(keyword)}\b', headline) or re.search(rf'\b{re.escape(keyword)}\b', content) for keyword in keywords)
+
+        if matches:
+            filtered_data.append(post)
+
+    return filtered_data
+
 
 # Apply keyword filtering
-filtered_news_data = filter_by_keywords(st.session_state.news_data, keywords)
+filtered_news_data = filter_exact_keywords(st.session_state.news_data, keywords)
 
 # Apply source filtering
 if filtered_sources:

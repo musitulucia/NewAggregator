@@ -185,6 +185,10 @@ def child_post_model(parent_element,
                     if translate:
                         Title = GoogleTranslator(source='zh-TW', target='en').translate(Title)
 
+
+                    if source == 'Eenewseurope':
+                        Title = Title.strip()
+
                     #print('before time ago')
                     publication_time_ago, publication_time, published_time, flag_days = Exporter.time_ago(date, source, flag_days)
                     #print('sucess time ago')
