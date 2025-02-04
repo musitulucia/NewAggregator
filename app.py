@@ -192,7 +192,7 @@ st.markdown(get_img(), unsafe_allow_html=True)
 # Header and tagline (compact)
 st.markdown("""
     <h2 style="font-size: 30px; color: #FFFFFF; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); text-align: center; margin: 10px 0;">Breaking News</h2>
-    <h4 style="font-size: 18px; color: #FFFFFF; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); text-align: center; margin: 5px 0;">Stay updated with all the headlines from the last five days. Last updated at 07:40, 03-02-25.</h4>
+    <h4 style="font-size: 18px; color: #FFFFFF; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); text-align: center; margin: 5px 0;">Stay updated with all the headlines from the last five days. Last updated at 07:40, 04-02-25.</h4>
 """, unsafe_allow_html=True)
 
 # Use custom font family for the app (compact version)
