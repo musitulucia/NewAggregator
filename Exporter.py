@@ -6,12 +6,20 @@ from dateutil import parser
 import pytz
 import config
 
+import streamlit as st
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.core.os_manager import ChromeType
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
 
 from playwright.sync_api import sync_playwright
 import time
@@ -27,6 +35,7 @@ import streamlit as st
 import notebook
 importlib.reload(notebook)
 import asyncio
+
 
 
 
@@ -1027,11 +1036,27 @@ async def fetch_news(source, flag_days):
 
         try:
 
-            # Initialize Selenium WebDriver
-            options = webdriver.ChromeOptions()
-            options.add_argument('--headless')
-            driver = webdriver.Chrome(service=Service(), options=options)
+            options = Options()
+            options.add_argument("--disable-gpu")
+            options.add_argument("--headless")
+
+            @st.cache_resource
+            def get_driver():
+                return webdriver.Chrome(
+                    service=Service(
+                        ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+                    ),
+                    options=options,
+                )
+
+            driver = get_driver()
             driver.get("https://www.eejournal.com/category/semiconductor/")
+
+            # # Initialize Selenium WebDriver
+            # options = webdriver.ChromeOptions()
+            # options.add_argument('--headless')
+            # driver = webdriver.Chrome(service=Service(), options=options)
+            # driver.get("https://www.eejournal.com/category/semiconductor/")
 
             #Wait for list to load
             WebDriverWait(driver, 15).until(
