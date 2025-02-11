@@ -286,10 +286,10 @@ if 'news_need_update' in st.session_state:
 # Display the "news_need_update" section
     display_news_need_update(st.session_state.news_need_update)
 
-# # Add a button to manually refresh news
-# if st.button("Refresh News",  key="refresh_news") or st.session_state.refresh_flag:
-#     print('✅ Time to refresh news')
-#     st.session_state.news_data = asyncio.run(update_news_async())  # Fetch updated news
-#     st.session_state.news_need_update = news_need_update
-#     st.session_state.last_run = time.time()  # Update the last run time
-#     st.session_state.refresh_flag = False  # Reset the refresh flag
+# Add a button to manually refresh news
+if st.button("Refresh News",  key="refresh_news") or st.session_state.refresh_flag:
+    print('✅ Time to refresh news')
+    st.session_state.news_data = asyncio.run(update_news_async())  # Fetch updated news
+    st.session_state.news_need_update = news_need_update
+    st.session_state.last_run = time.time()  # Update the last run time
+    st.session_state.refresh_flag = False  # Reset the refresh flag
