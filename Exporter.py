@@ -1049,7 +1049,9 @@ async def fetch_news(source, flag_days):
             options.add_argument('--disable-dev-shm-usage')  # Prevent crashes in Docker
 
             # Initialize driver and scrape the webpage
-            driver = webdriver.Chrome(options=options)
+            service = Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=service, options=options)
+
             driver.get("https://www.eejournal.com/category/semiconductor/")
 
             # driver.get("https://www.eejournal.com/category/semiconductor/")
