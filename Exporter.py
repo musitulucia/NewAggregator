@@ -1035,25 +1035,14 @@ async def fetch_news(source, flag_days):
 
         try:
 
-            # # Initialize Selenium WebDriver
-            # options = webdriver.ChromeOptions()
-            # options.add_argument('--headless')
-            # driver = webdriver.Chrome(service=Service(), options=options)
-
-            # Initialize Selenium WebDriver options for headless browsing (necessary for Docker)
             options = Options()
-            # options = webdriver.ChromeOptions()
-            options.add_argument('--headless')  # No GUI
-            #options.add_argument('--disable-gpu')  # Disables GPU acceleration
-            options.add_argument('--no-sandbox')  # Required in Docker for Chromium
-            options.add_argument('--disable-dev-shm-usage')  # Prevent crashes in Docker
-            # Initialize driver and scrape the webpage
+            options.add_argument('--headless')
+            options.add_argument('--disable-dev-shm-usage')
             service = Service(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=service, options=options)
 
             driver.get("https://www.eejournal.com/category/semiconductor/")
 
-            # driver.get("https://www.eejournal.com/category/semiconductor/")
 
             #Wait for list to load
             WebDriverWait(driver, 15).until(
