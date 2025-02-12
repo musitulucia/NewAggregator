@@ -35,8 +35,17 @@ import streamlit as st
 import notebook
 importlib.reload(notebook)
 import asyncio
+import os
 
-chromedriver_autoinstaller.install()
+
+chromedriver_dir = '/tmp/chromedriver'
+
+# Make sure the custom directory exists
+if not os.path.exists(chromedriver_dir):
+    os.makedirs(chromedriver_dir)
+
+# Install ChromeDriver to the custom directory
+chromedriver_autoinstaller.install(path=chromedriver_dir)
 
 
 # Global list to store news data
@@ -200,6 +209,7 @@ async def fetch_news(source, flag_days):
 
     global news_need_update
     global insight_need_update
+    global chromedriver_dir
 
 
     news = []
@@ -1040,7 +1050,12 @@ async def fetch_news(source, flag_days):
             options.add_argument('--disable-dev-shm-usage')
             #service = Service(ChromeDriverManager().install())
             #driver = webdriver.Chrome(service=service, options=options)
-            driver = webdriver.Chrome(options=options)
+            #driver = webdriver.Chrome(options=options)
+
+            service = Service(os.path.join(chromedriver_dir, 'chromedriver'))
+
+            # Start the WebDriver with the options
+            driver = webdriver.Chrome(service=service, options=options)
 
             driver.get("https://www.eejournal.com/category/semiconductor/")
 
