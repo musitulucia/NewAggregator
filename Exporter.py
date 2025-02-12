@@ -1042,15 +1042,29 @@ async def fetch_news(source, flag_days):
 
             # Initialize Selenium WebDriver options for headless browsing (necessary for Docker)
             #options = Options()
-            options = webdriver.ChromeOptions()
-            options.add_argument('--headless')  # No GUI
-            options.add_argument('--disable-gpu')  # Disables GPU acceleration
-            options.add_argument('--no-sandbox')  # Required in Docker for Chromium
-            options.add_argument('--disable-dev-shm-usage')  # Prevent crashes in Docker
-
+            # options = webdriver.ChromeOptions()
+            # options.add_argument('--headless')  # No GUI
+            # options.add_argument('--disable-gpu')  # Disables GPU acceleration
+            # options.add_argument('--no-sandbox')  # Required in Docker for Chromium
+            # options.add_argument('--disable-dev-shm-usage')  # Prevent crashes in Docker
             # Initialize driver and scrape the webpage
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=options)
+            # service = Service(ChromeDriverManager().install())
+            # driver = webdriver.Chrome(service=service, options=options)
+
+            @st.cache_resource
+            def get_driver():
+                return webdriver.Chrome(
+                    service=Service(
+                        ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
+                    ),
+                    options=options,
+                )
+
+            options = Options()
+            options.add_argument("--disable-gpu")
+            options.add_argument("--headless")
+
+            driver = get_driver()
 
             driver.get("https://www.eejournal.com/category/semiconductor/")
 
