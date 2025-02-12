@@ -20,7 +20,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
 from playwright.sync_api import sync_playwright
 import time
 import re
@@ -136,7 +135,7 @@ def time_ago(date, source, flag_days):
 
             #NOTE: Only extract news ins the last 60 days
             #if  delta.days > 2:
-            if  delta.days > 5:
+            if  delta.days > 10:
 
                 '''
                 ¡¡¡¡IMPORTANT!!! THIS ASSUMES ALL WEB NEWS APPEAR ORDERED IN TIME
@@ -1036,26 +1035,23 @@ async def fetch_news(source, flag_days):
 
         try:
 
-            options = Options()
-            options.add_argument("--disable-gpu")
-            options.add_argument("--headless")
-
-            @st.cache_resource
-            def get_driver():
-                return webdriver.Chrome(
-                    service=Service(
-                        ChromeDriverManager(chrome_type=ChromeType.CHROMIUM).install()
-                    ),
-                    options=options,
-                )
-
-            driver = get_driver()
-            driver.get("https://www.eejournal.com/category/semiconductor/")
-
             # # Initialize Selenium WebDriver
             # options = webdriver.ChromeOptions()
             # options.add_argument('--headless')
             # driver = webdriver.Chrome(service=Service(), options=options)
+
+            # Initialize Selenium WebDriver options for headless browsing (necessary for Docker)
+            #options = Options()
+            options = webdriver.ChromeOptions()
+            options.add_argument('--headless')  # No GUI
+            options.add_argument('--disable-gpu')  # Disables GPU acceleration
+            options.add_argument('--no-sandbox')  # Required in Docker for Chromium
+            options.add_argument('--disable-dev-shm-usage')  # Prevent crashes in Docker
+
+            # Initialize driver and scrape the webpage
+            driver = webdriver.Chrome(options=options)
+            driver.get("https://www.eejournal.com/category/semiconductor/")
+
             # driver.get("https://www.eejournal.com/category/semiconductor/")
 
             #Wait for list to load
