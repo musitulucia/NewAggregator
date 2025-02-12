@@ -12,6 +12,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core.os_manager import ChromeType
+import chromedriver_autoinstaller
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -35,9 +36,7 @@ import notebook
 importlib.reload(notebook)
 import asyncio
 
-
-
-
+chromedriver_autoinstaller.install()
 
 
 # Global list to store news data
@@ -1039,8 +1038,9 @@ async def fetch_news(source, flag_days):
             options.add_argument('--headless')
             options.add_argument("--no-sandbox")
             options.add_argument('--disable-dev-shm-usage')
-            service = Service(ChromeDriverManager().install())
-            driver = webdriver.Chrome(service=service, options=options)
+            #service = Service(ChromeDriverManager().install())
+            #driver = webdriver.Chrome(service=service, options=options)
+            driver = webdriver.Chrome(options=options)
 
             driver.get("https://www.eejournal.com/category/semiconductor/")
 
