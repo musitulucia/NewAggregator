@@ -1,1 +1,34 @@
-[]
+[
+    {
+        "headline": "CEA-Leti Announces FAMES Pilot Line  In Nature Reviews Electrical Engineering",
+        "publication_time": "11-02-2025",
+        "publication_time_ago": "1 day ago",
+        "published_time": "2025-02-11T00:00:00+01:00",
+        "source": "Eejournal",
+        "link": "https://www.eejournal.com/industry_news/cea-leti-announces-fames-pilot-line-in-nature-reviews-electrical-engineering/"
+    },
+    {
+        "headline": "Groundbreaking Formal Verification Further Enhances the Quality of CHERIoT-Ibex",
+        "publication_time": "10-02-2025",
+        "publication_time_ago": "2 days ago",
+        "published_time": "2025-02-10T00:00:00+01:00",
+        "source": "Eejournal",
+        "link": "https://www.eejournal.com/industry_news/groundbreaking-formal-verification-further-enhances-the-quality-of-cheriot-ibex/"
+    },
+    {
+        "headline": "Next-Generation Power Technology for Data Center Accelerator Cards",
+        "publication_time": "06-02-2025",
+        "publication_time_ago": "6 days ago",
+        "published_time": "2025-02-06T00:00:00+01:00",
+        "source": "Eejournal",
+        "link": "https://www.eejournal.com/article/next-generation-power-technology-for-data-center-accelerator-cards/"
+    },
+    {
+        "headline": "Predictions for Multi-Die System Designs in 2025",
+        "publication_time": "04-02-2025",
+        "publication_time_ago": "8 days ago",
+        "published_time": "2025-02-04T00:00:00+01:00",
+        "source": "Eejournal",
+        "link": "https://www.eejournal.com/article/predictions-for-multi-die-system-designs-in-2025/"
+    }
+]
